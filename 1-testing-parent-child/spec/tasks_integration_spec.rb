@@ -1,5 +1,7 @@
 require "task_list"
 require "task"
+require "task_formatter"
+
 
 RSpec.describe "tasks integration" do
   it "adds tasks to a list" do
@@ -20,5 +22,22 @@ RSpec.describe "tasks integration" do
     task_1.mark_complete
     task_2.mark_complete
     expect(task_list.all_complete?).to eq true
+  end
+
+  context "task formatter integration" do
+    it "formats a tasks" do
+      task = Task.new("Pet the dog")
+      task_formatter = TaskFormatter.new(task)
+  
+      expect(task_formatter.format).to eq "[ ] Pet the dog"
+    end
+    
+    it "formats a complete task" do
+      task = Task.new("Pet the dog")
+      task.mark_complete
+      task_formatter = TaskFormatter.new(task)
+  
+      expect(task_formatter.format).to eq "[X] Pet the dog"
+    end
   end
 end
